@@ -4,25 +4,33 @@
 
 
 // TODO: 
-// figure out how to have different types for the same struct 
-// write the functions for adding a element to the end of the list 
-// write the functions for removimg a certain element with a certain index
-// see if you can print the structure with the index;
-
+// think about index it should start at null
+// pop or remove 
+// add 
+// init
+// test - test indexes too probably need a get function to get a certain index.
 enum types {INT,STRING,CHAR,BOOL};
 
+union data {
+    int i_data;
+    char *s_data;
+    char c_data;
+    double d_data;
+    float f_data;
+};
+
 typedef struct linkedList{
-    // data?
+    int index;
+    union data node_data;
     enum types *type;
     struct linkedList *head;
-    struct linkedList *node;
     struct linkedList *tail;
 }linkedList;
 
 
-linkedList* initList(struct linkedList *list, enum types *type);
-
-
+linkedList* initList(struct linkedList *list, enum types *type, union data node_data);
+linkedList* addNode(struct linkedList *parent, struct linkedList child);
+linkedList* popNode(struct linkedList *list);
 
 
 #endif
