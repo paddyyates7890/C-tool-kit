@@ -1,35 +1,28 @@
 #ifndef _LINKED_LIST
 #define _LINKED_LIST
-// my implementation of a linked list
 
-
-// TODO: 
-// think about index it should start at null
-// pop or remove 
-// add 
-// init
-// test - test indexes too probably need a get function to get a certain index.
-enum types {INT,STRING,CHAR,BOOL};
-
-union data {
-    int i_data;
-    char *s_data;
-    char c_data;
-    double d_data;
-    float f_data;
-};
+struct listNode;
+typedef struct listNode{
+    struct listNode *next;
+    struct listNode *prev;
+    void *value;
+}listNode;
 
 typedef struct linkedList{
-    int index;
-    union data node_data;
-    enum types *type;
-    struct linkedList *next;
+    int count;
+    listNode *first;
+    listNode *last;
 }linkedList;
 
+linkedList* create_list();
 
-linkedList* initNode(struct linkedList *head, struct linkedList *list, enum types *type, union data node_data);
-linkedList* addNode(struct linkedList *node, struct linkedList *child);
-linkedList* removeNode(struct linkedList *list);
+void LLdestroy(linkedList *list);
+void LLpush(linkedList *list, void *value);
+void *LLpop(linkedList *list);
+void *LLremove(linkedList *list, listNode* node);
 
+#define LLcount(A) ((A)->count);
+
+#define LLFOREACH(L, S, M, V) listNode *_node = NULL; listNode *V = NULL; for(V = _node = L->S; _node != NULL; V = _node = _node->M)
 
 #endif

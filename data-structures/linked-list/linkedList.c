@@ -1,23 +1,66 @@
 #include "linkedList.h"
+#include <stdlib.h>
 
-linkedList* createList(enum types *type, union data node_data){
-    struct linkedList *new_list;
-
-    new_list->index = 0;
-    new_list->type = type;
-    new_list->node_data = node_data;
-
-    return new_list;
+linkedList* create_list(){
+    return calloc(1, sizeof(linkedList));
 }
 
-linkedList* initNode(struct linkedList *head, struct linkedList *list, enum types *type, union data node_data){
-    list->type = type;
-    list->node_data = node_data;
-    list->index = (head->index + 1);
-    return list;
+void LLdestroy(linkedList *list){
+    LLFOREACH(list, first, next, cur){
+        if (cur->prev)
+        {
+            free(cur->prev);
+        }
+        
+    }
+
+    free(list->last);
+    free(list);
 }
 
-linkedList* addNode(struct linkedList *node, struct linkedList *child){
-    // TODO 
+void LLpush(linkedList *list, void *value){
+    listNode *node = calloc(1, sizeof(node));
+    node->value = value;
+
+    if (list->last == NULL) {
+        list->first = node;
+        list->last = node;
+    } else {
+        list->last->next = node;
+        node->prev = list->last;
+        list->last = node;
+    }
+
+    list->count++;
 }
 
+void *LLpop(linkedList *list){
+    listNode *node = list->last;
+    return (node != NULL ? LLremove(list, node) : NULL);
+}
+
+void *LLremove(linkedList *list, listNode* node){
+    void *result = NULL;
+
+    if (node == list->first && node == list->last) {
+        list->first = NULL;
+        list->last = NULL;
+    } else if (node == list->first) {
+        list->first = node->next;
+        list->first->prev = NULL;
+    } else if (node == list->last) {
+        list->last = node->prev;
+        list->last->next = NULL;
+    } else {
+        listNode *after = node->next;
+        listNode *before = node->prev;
+        after->prev = before;
+        before->next = after;
+    }
+    
+    list->count--;
+    result = node->value;
+    free(node);
+    
+    return result;
+}
