@@ -23,14 +23,13 @@ typedef struct linkedList{
     int index;
     union data node_data;
     enum types *type;
-    struct linkedList *head;
-    struct linkedList *tail;
+    struct linkedList *next;
 }linkedList;
 
 
-linkedList* initList(struct linkedList *list, enum types *type, union data node_data);
-linkedList* addNode(struct linkedList *parent, struct linkedList child);
-linkedList* popNode(struct linkedList *list);
+linkedList* initNode(struct linkedList *head, struct linkedList *list, enum types *type, union data node_data);
+linkedList* addNode(struct linkedList *node, struct linkedList *child);
+linkedList* removeNode(struct linkedList *list);
 
 
 #endif
